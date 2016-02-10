@@ -1,0 +1,47 @@
+digraph {
+    compound=true;
+    label="Request Flow";
+    labelloc=top;
+
+    visitor[label="Visitor"];
+    externallb[label="External LB", shape="rect"];
+    visitor -> externallb;
+    externallb -> nginx;
+    
+    developer[label="Developer"];
+    builderexternallb[label="Builder External LB", shape="rect"];
+    developer -> builderexternallb;
+    builderexternallb -> builder;
+    
+    {rank=same; visitor developer}
+    {rank=same; externallb builderexternallb}
+    
+    
+    subgraph cluster_kubernetes {
+        label="kubernetes";
+        graph[style=dotted];
+        nginx[label="Nginx Proxy"];
+        
+        nginx -> app1[label="host=app1.example.com"];
+        nginx -> app2[label="host=app2.example.com"];
+        
+        subgraph cluster_noelapp {
+            label="noelapp namespace";
+            app1[label="App 1 Service"];
+            app2[label="App 2 Service"];
+            podsforapp1[label="App 1 Pods", shape="box3d"];
+            podsforapp2[label="App 2 Pods", shape="box3d"];
+            app1 -> podsforapp1;
+            app2 -> podsforapp2;
+            {rank=same; app1 app2}
+        }
+        
+        subgraph cluster_noel {
+            label="noel namespace";
+            builder[label="Builder Service"];
+            builderpods[label="Builder Pods", shape="box3d"];
+            builder;
+            builder -> builderpods;
+        }
+    }
+}

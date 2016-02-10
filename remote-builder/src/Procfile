@@ -1,0 +1,2 @@
+sshd: /usr/sbin/sshd -D
+ssh_keys_watcher: noel-ssh-keys-watcher $GITHOME/.ssh/authorized_keys

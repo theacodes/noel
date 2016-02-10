@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: "{{name}}-{{build_version}}"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        noel-app: "{{name}}"
+        build-version: "{{build_version}}"
+    spec:
+      containers:
+      - name: noel-app
+        image: "{{image}}"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        volumeMounts:
+        {% if config %}
+        - name: noelapp-config
+          mountPath: /var/noel/config
+          readOnly: true
+        {% endif %}
+      volumes:
+      {% if config %}
+      - name: noelapp-config
+        secret:
+          secretName: {{config.metadata.name}}
+      {% endif %}
