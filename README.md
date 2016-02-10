@@ -93,6 +93,16 @@ To deploy remotely you must do a `git push` to a special git remote. To add the 
 Then you can push to the remote to deploy:
 
     git push noel master
+    
+### Setting and reading configuration
+
+To set application configuration values:
+
+    noel set-config --app your-app key1=value1 key2=value2
+
+Any existing config is kept. The application will be re-deployed.
+
+Noel mounts all config values in the application's file system under `/var/noel/config`, so for example if you set `foo` to `bar`, reading the file `/var/noel/config/foo` will give you `bar`.
 
 ## Making requests to your applications
 
@@ -112,7 +122,9 @@ You have two options for using this IP address to access your applications.
 
 2. You can manually specify a host header when testing requests to applications, for example using `curl`:
 
-    curl -H "Host: app.example.com" external-ip
+```
+curl -H "Host: app.example.com" external-ip
+```
 
 # Disclaimer
 
