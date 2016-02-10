@@ -69,4 +69,4 @@ def get_project_id():
         'list',
         'project',
         '--format=value(core.project)',
-        silent=True).strip()
+        silent=True).strip().split('\n').pop()
