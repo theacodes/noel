@@ -68,6 +68,10 @@ Noel requires access to the Kubernetes API, the easiest way to do this is to jus
 
     kubectl proxy &
 
+### Defining an application
+
+A Noel app only needs a `Dockerfile` in the root of the repository. The Dockerfile should start a web server on port `8080`. Everything else is up to you. There's a [simple Python/Flask example app](https://github.com/jonparrott/noel-example-app) that you can use to start with.
+
 ### Deploying locally
 
 To deploy locally:
